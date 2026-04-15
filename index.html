@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>尖石國小互動導覽</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .perspective-1000 { perspective: 1000px; }
+        .preserve-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-option.correct {
+            border-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            color: #15803d !important;
+        }
+        .quiz-option.wrong {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #b91c1c !important;
+        }
+        .quiz-option.disabled {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <!-- Header -->
+    <header class="bg-red-800 text-white p-6 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rotate-45 translate-x-16 -translate-y-8"></div>
+        <div class="max-w-4xl mx-auto flex items-center justify-between relative z-10">
+            <div>
+                <h1 class="text-3xl font-black tracking-tight">尖石國小互動導覽</h1>
+                <p class="opacity-90 flex items-center mt-2 text-sm">
+                    <i data-lucide="map-pin" class="w-4 h-4 mr-1 text-yellow-400"></i> 新竹縣尖石鄉嘉樂村2鄰50號
+                </p>
+            </div>
+            <div class="hidden md:block">
+                <div class="border-2 border-white/30 px-4 py-2 rounded-lg bg-black/10 text-xs uppercase tracking-widest font-bold">
+                    Atayal Spirit
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        <!-- Navigation -->
+        <nav class="flex flex-wrap gap-2 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-200">
+            <button onclick="switchTab('intro')" id="btn-intro" class="nav-btn flex-1 min-w-[120px] py-3 px-4 rounded-xl flex items-center justify-center transition-all duration-300 bg-red-700 text-white shadow-md">
+                <i data-lucide="info" class="w-4 h-4 mr-2"></i><span class="font-bold">認識校園</span>
+            </button>
+            <button onclick="switchTab('culture')" id="btn-culture" class="nav-btn flex-1 min-w-[120px] py-3 px-4 rounded-xl flex items-center justify-center transition-all duration-300 text-slate-600 hover:bg-red-50">
+                <i data-lucide="book-open" class="w-4 h-4 mr-2"></i><span class="font-bold">文化特色</span>
+            </button>
+            <button onclick="switchTab('language')" id="btn-language" class="nav-btn flex-1 min-w-[120px] py-3 px-4 rounded-xl flex items-center justify-center transition-all duration-300 text-slate-600 hover:bg-red-50">
+                <i data-lucide="languages" class="w-4 h-4 mr-2"></i><span class="font-bold">族語實驗室</span>
+            </button>
+            <button onclick="switchTab('quiz')" id="btn-quiz" class="nav-btn flex-1 min-w-[120px] py-3 px-4 rounded-xl flex items-center justify-center transition-all duration-300 text-slate-600 hover:bg-red-50">
+                <i data-lucide="star" class="w-4 h-4 mr-2"></i><span class="font-bold">文化挑戰</span>
+            </button>
+        </nav>
+
+        <!-- Content Sections -->
+        
+        <!-- Intro Section -->
+        <section id="content-intro" class="tab-content active">
+            <div class="bg-white p-8 rounded-3xl shadow-md border-b-4 border-red-700">
+                <div class="flex items-center mb-4">
+                    <div class="bg-red-100 p-2 rounded-lg mr-3">
+                        <i data-lucide="home" class="text-red-700"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold">走進尖石國小</h2>
+                </div>
+                <p class="text-lg leading-relaxed text-slate-700 mb-6">
+                    這裡是位於泰雅族部落的心臟地帶，學生們在自然與傳統的薰陶下成長。我們的教育核心是「泰雅心」，讓每個孩子都能以此為榮。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-6 rounded-2xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-red-100 group">
+                        <div class="bg-white w-12 h-12 flex items-center justify-center rounded-full mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                            <i data-lucide="users" class="text-red-600"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 text-red-900">泰雅文化傳承</h3>
+                        <p class="text-slate-600 text-sm">學校致力於泰雅族語教學、傳統織布與狩獵文化傳承。</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-red-100 group">
+                        <div class="bg-white w-12 h-12 flex items-center justify-center rounded-full mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                            <i data-lucide="home" class="text-green-600"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 text-red-900">山林環境教育</h3>
+                        <p class="text-slate-600 text-sm">座落於油羅溪畔，校園設計融入山林意象與生態保育。</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-red-100 group">
+                        <div class="bg-white w-12 h-12 flex items-center justify-center rounded-full mb-4 shadow-sm group-hover:scale-110 transition-transform">
+                            <i data-lucide="music" class="text-blue-600"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2 text-red-900">藝術與音樂</h3>
+                        <p class="text-slate-600 text-sm">尖石國小合唱團以優美歌喉聞名，展現原民音樂天賦。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Culture Section -->
+        <section id="content-culture" class="tab-content">
+            <div class="bg-white p-8 rounded-3xl shadow-md space-y-8">
+                <div class="flex items-center space-x-2 border-b-2 border-slate-100 pb-4">
+                    <div class="w-2 h-8 bg-red-700 rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-slate-800">校園文化點睛</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="rounded-2xl bg-red-50 border border-red-100 p-8 flex items-center justify-center aspect-video">
+                            <div class="text-center">
+                                <i data-lucide="users" class="w-12 h-12 text-red-200 mx-auto mb-2"></i>
+                                <p class="text-red-600 font-bold">泰雅圖騰壁畫區</p>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-red-900">菱形圖騰的祝福</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            校舍牆面隨處可見菱形紋路，代表「祖靈的眼睛」(Sinsit na Utux)，象徵祖先時刻看顧著孩子，希望他們正直勇敢。
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="rounded-2xl bg-amber-50 border border-amber-100 p-8 flex items-center justify-center aspect-video">
+                            <div class="text-center">
+                                <i data-lucide="home" class="w-12 h-12 text-amber-200 mx-auto mb-2"></i>
+                                <p class="text-amber-700 font-bold">傳統智慧：穀倉</p>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-amber-900">防鼠防潮的智慧</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            傳統高腳穀倉展現先民科技，圓形防鼠板設計體現與自然共生的智慧，是最佳的戶外教室。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Language Section -->
+        <section id="content-language" class="tab-content">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-red-900 mb-2">泰雅語互動翻翻卡</h2>
+                <p class="text-slate-500">點擊卡片，學習簡單的泰雅語單詞！</p>
+            </div>
+            <div id="vocab-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Cards will be generated by JS -->
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="content-quiz" class="tab-content">
+            <div id="quiz-container" class="bg-white p-8 rounded-3xl shadow-xl">
+                <!-- Quiz will be generated by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="max-w-4xl mx-auto p-12 text-center text-slate-400 text-sm">
+        <div class="w-12 h-1 bg-red-100 mx-auto mb-6"></div>
+        <p class="font-medium">新竹縣尖石國小 - 數位探索平台 v2.0</p>
+        <p class="mt-2">泰雅心 · 家鄉情 · 世界觀</p>
+        <div class="mt-6 flex justify-center space-x-6 text-slate-300">
+           <span>族語教學</span><span>•</span><span>合唱文化</span><span>•</span><span>山林教育</span>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data ---
+        const vocabulary = [
+            { word: "Lokah su' ga?", translation: "你好嗎？", phonetic: "羅卡 蘇 嘎" },
+            { word: "Mhway su'!", translation: "謝謝你！", phonetic: "姆壞 蘇" },
+            { word: "Nahuy", translation: "尖石（地名）", phonetic: "那輝" },
+            { word: "Tayal", translation: "泰雅族 / 人", phonetic: "泰雅" },
+            { word: "Sali'", translation: "家 / 學校", phonetic: "沙利" },
+            { word: "Gaga", translation: "傳統律法/文化", phonetic: "嘎嘎" }
+        ];
+
+        const quizQuestions = [
+            {
+                q: "尖石國小主要位於哪一個原住民族的傳統領地？",
+                a: ["阿美族", "泰雅族", "排灣族", "布農族"],
+                correct: 1
+            },
+            {
+                q: "校園內「菱形圖騰」象徵什麼意義？",
+                a: ["山脈", "祖靈的眼睛", "河流", "獵人的刀"],
+                correct: 1
+            },
+            {
+                q: "泰雅語中的「Nahuy」是指哪一個地方？",
+                a: ["竹東", "橫山", "尖石", "五峰"],
+                correct: 2
+            }
+        ];
+
+        // --- State ---
+        let currentQuizStep = 0;
+        let currentScore = 0;
+        let isQuizLocked = false;
+
+        // --- Functions ---
+
+        function init() {
+            lucide.createIcons();
+            renderVocab();
+            renderQuiz();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`content-${tabId}`).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('bg-red-700', 'text-white', 'shadow-md', 'scale-105');
+                b.classList.add('text-slate-600', 'hover:bg-red-50');
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('text-slate-600', 'hover:bg-red-50');
+            activeBtn.classList.add('bg-red-700', 'text-white', 'shadow-md', 'scale-105');
+        }
+
+        function renderVocab() {
+            const grid = document.getElementById('vocab-grid');
+            grid.innerHTML = vocabulary.map((item, idx) => `
+                <div class="cursor-pointer h-40 relative group perspective-1000" onclick="flipCard(this)">
+                    <div class="card-inner relative w-full h-full preserve-3d">
+                        <!-- Front -->
+                        <div class="absolute inset-0 backface-hidden bg-white border-2 border-red-100 rounded-2xl flex flex-col items-center justify-center p-4 shadow-sm group-hover:shadow-md">
+                            <p class="text-2xl font-black text-red-700 text-center">${item.word}</p>
+                            <p class="text-xs text-slate-400 mt-2 font-mono">${item.phonetic}</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 bg-red-700 text-white rounded-2xl flex items-center justify-center p-4 shadow-inner">
+                            <p class="text-xl font-bold">${item.translation}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function flipCard(element) {
+            const inner = element.querySelector('.card-inner');
+            inner.classList.toggle('rotate-y-180');
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            
+            if (currentQuizStep >= quizQuestions.length) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="relative inline-block mb-6">
+                           <div class="absolute inset-0 bg-yellow-400 blur-2xl opacity-20 animate-pulse"></div>
+                           <div class="relative bg-white p-6 rounded-full shadow-lg border-4 border-yellow-400">
+                              <i data-lucide="star" class="w-16 h-16 text-yellow-500 fill-current"></i>
+                           </div>
+                        </div>
+                        <h2 class="text-4xl font-black mb-2 text-red-900">太棒了！泰雅勇士</h2>
+                        <p class="text-xl text-slate-600 mb-8">你獲得了 <span class="text-3xl text-red-600 font-black">${currentScore}</span> 點智慧值</p>
+                        <button onclick="resetQuiz()" class="bg-red-700 text-white px-8 py-4 rounded-2xl font-black hover:bg-red-800 transition-all shadow-lg flex items-center mx-auto">
+                            <i data-lucide="refresh-ccw" class="w-5 h-5 mr-2"></i> 重新挑戰
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            const q = quizQuestions[currentQuizStep];
+            const progress = ((currentQuizStep + 1) / quizQuestions.length) * 100;
+
+            container.innerHTML = `
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800">文化挑戰賽</h2>
+                        <p class="text-slate-500 mt-1">測試你對尖石國小的了解程度</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-bold text-red-600 block mb-1">得分: ${currentScore}</span>
+                        <div class="w-32 h-3 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-red-600 transition-all duration-500" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <div class="bg-slate-50 p-6 rounded-2xl mb-6 flex items-center">
+                        <p class="text-xl font-bold text-slate-800">
+                            <span class="text-red-600 mr-2">Q${currentQuizStep + 1}.</span>${q.q}
+                        </p>
+                    </div>
+                    <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                        ${q.a.map((opt, idx) => `
+                            <button onclick="handleQuizAnswer(${idx})" class="quiz-option text-left p-5 rounded-2xl border-2 border-slate-100 hover:border-red-300 hover:bg-red-50 transition-all flex justify-between items-center group font-medium">
+                                <span>${opt}</span>
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300 group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function handleQuizAnswer(index) {
+            if (isQuizLocked) return;
+            isQuizLocked = true;
+
+            const q = quizQuestions[currentQuizStep];
+            const options = document.getElementById('quiz-options').children;
+            const correctIdx = q.correct;
+
+            // Mark correct answer
+            options[correctIdx].classList.add('correct');
+            options[correctIdx].querySelector('i').setAttribute('data-lucide', 'check-circle-2');
+
+            if (index === correctIdx) {
+                currentScore++;
+            } else {
+                // Mark wrong answer
+                options[index].classList.add('wrong');
+                options[index].querySelector('i').setAttribute('data-lucide', 'x-circle');
+            }
+
+            // Disable all options
+            for (let opt of options) opt.classList.add('disabled');
+            
+            lucide.createIcons();
+
+            setTimeout(() => {
+                currentQuizStep++;
+                isQuizLocked = false;
+                renderQuiz();
+            }, 1500);
+        }
+
+        function resetQuiz() {
+            currentQuizStep = 0;
+            currentScore = 0;
+            isQuizLocked = false;
+            renderQuiz();
+        }
+
+        // --- Start ---
+        window.onload = init;
+    </script>
+</body>
+</html>
